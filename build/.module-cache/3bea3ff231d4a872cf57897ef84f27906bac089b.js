@@ -6,16 +6,14 @@
 //   }
 // });
 
-var NavButton = React.createClass({
+var NavButton = React.createClass({displayName: 'NavButton',
   getInitialState: function() {
-    this.setDefaultProps();
     return null;
   },
 
   setDefaultProps: function() {
     this.props.name = this.props.name || "My Button";
-    this.props.backgroundColor = this.props.backgroundColor || 'lightgray';
-    console.log(this.props);
+    this.props.backgroundColor = this.props.backgroundColor || 'light gray';
   },
 
   onClick: function() {
@@ -24,12 +22,11 @@ var NavButton = React.createClass({
 
   render: function() {
     var self = this;
-    var style = {backgroundColor: self.props.backgroundColor};
-    console.log(style);
-    return <span style={style} onClick={self.onClick}>{this.props.name}</span>
+    var style = {backgroundColor: this.props.backgroundColor};
+    return React.createElement("span", {style: style, onClick: self.onClick}, this.props.name)
   }
 
 });
 
-React.render(<NavButton name='Home'/>, 
+React.render(React.createElement(NavButton, {name: "Home"}), 
   document.getElementById('nav-panel'));

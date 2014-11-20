@@ -8,25 +8,16 @@
 
 var NavButton = React.createClass({displayName: 'NavButton',
   getInitialState: function() {
-    this.setDefaultProps();
     return null;
   },
 
   setDefaultProps: function() {
     this.props.name = this.props.name || "My Button";
-    this.props.backgroundColor = this.props.backgroundColor || 'lightgray';
-    console.log(this.props);
-  },
-
-  onClick: function() {
-    console.log(this.props.name);
+    this.props.backgroundColor = this.props.backgroundColor || 'light gray';
   },
 
   render: function() {
-    var self = this;
-    var style = {backgroundColor: self.props.backgroundColor};
-    console.log(style);
-    return React.createElement("span", {style: style, onClick: self.onClick}, this.props.name)
+    return React.createElement("div", null, this.props.name)
   }
 
 });

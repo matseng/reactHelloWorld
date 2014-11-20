@@ -4,21 +4,19 @@
 //   console.log("hello world");
 // };
 
-var Greeting = React.createClass({
+var Greeting = React.createClass({displayName: 'Greeting',
   
   getInitialState: function() {
     return {name: this.props.name, greeting: this.props.greeting};
   },
 
   render: function() {
-    var str = this.state.greeting + ", " + this.state.name;
-    console.log(str);
-    return <div>{str}</div>
+    console.log(greeting + ", " + name);
   }
 
 });
 
-React.render(<Greeting name='mikey' greeting='hellooo'/>, 
+React.renderComponent(React.createElement(Greeting, {name: "mikey", greeting: "hellooo"}), 
   document.getElementById('example'));
 
 

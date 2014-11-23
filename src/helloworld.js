@@ -51,28 +51,40 @@ var NavPanel = React.createClass({
     return {selected: 'Home'};
   },
 
-  onClick: function(buttonName) {
+  onClick: function(buttonName) {  // NOTE: use this onClick wrapper because cant use 'bind' with setState
     this.setState({selected: buttonName});
     console.log(this.state.selected);
   },
 
+  myTest: function(sel) {
+    this.setState(sel)
+  },
+
   render: function() {
     var self = this;
+    console.log(this.state.selected);
     return (
       <ul>
-      <NavButton name="Home" onClick={self.setState.bind(this, 'Home')} selected={self.state.selected} key='1'></NavButton>
-        <li>
-          <div>Feed</div>
-        </li>
-        <NavButton name="New" onClick={self.onClick.bind(self, "New")} selected={self.state.selected} children={['Delete', 'Group', 'Note', 'Arrow', 'More']} key='2'></NavButton>
-        <li>
-          <div>Search</div>
-        </li>
-        <li>
-          <div>More</div>
-        </li>
+        <NavButton name="Home" onClick={self.myTest.bind(self, {selected: 'Home'})} selected={self.state.selected} key='1' myKey='1'></NavButton>
+        <NavButton name="New" onClick={self.onClick.bind(self, "New")} selected={self.state.selected} children={['Delete', 'Group', 'Note', 'Arrow', 'More']} key='2' myKey='2'></NavButton>
       </ul>
     )
+    // return (
+    //   <ul>
+    //   // <NavButton name="Home" onClick={self.setState.bind(self, {selected: 'Home'})} selected={self.state.selected} key='1'></NavButton>
+    //     <NavButton name="Home" onClick={self.myTest.bind(self, {selected: 'Home'})} selected={self.state.selected} key='1' myKey='1'></NavButton>
+    //     <li>
+    //       <div>Feed</div>
+    //     </li>
+    //     <NavButton name="New" onClick={self.onClick.bind(self, "New")} selected={self.state.selected} children={['Delete', 'Group', 'Note', 'Arrow', 'More']} key='2' myKey='2'></NavButton>
+    //     <li>
+    //       <div>Search</div>
+    //     </li>
+    //     <li>
+    //       <div>More</div>
+    //     </li>
+    //   </ul>
+    // )
   },
 
   render_OLD: function() {

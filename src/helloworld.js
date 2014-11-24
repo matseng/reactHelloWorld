@@ -21,15 +21,20 @@ var NavButton = React.createClass({
   },
 
   getChildStyle: function(child) {
-    var color = (child === this.state.selected.childSelected) ? 'blue' : 'black';
-    var visibility = (this.props.selected.selected) ? 'visible' : 'hidden';
+    // var name = _getName(child);
+    // console.log(name);
+    var color = (child === this.props.selected[this.props.name].childSelected) ? 'blue' : 'black';
+    var visibility = (this.props.selected.selected === this.props.name) ? 'visible' : 'hidden';
     return {color: color, visibility: visibility}
   },
 
   handleChildClick: function(child) {
+    var obj = {};
+    obj[this.props.name] = {childSelected: child};
+    this.props.setStateWrapper(obj);
     // console.log('child clicked:' + child);
     // this.state.selected.childSelected = child;
-    this.setState(this.state.selected.childSelected = child);
+    // this.setState({});
   },
 
   render: function() {
@@ -52,14 +57,6 @@ var NavButton = React.createClass({
 var NavPanel = React.createClass({
 
   getInitialState: function() {
-    // return {selected: 'Home'};
-    // var state = {
-    //   Home: {selected: false, childSelected: '1'},
-    //   Feed: {selected: false, childSelected: '5'},
-    //   New: {selected: true, childSelected: 'Note'},
-    //   Search: {selected: false, childSelected: '9'},
-    //   More: {selected: false, childSelected: null}
-    // };
     var state = {
       selected: "New",
       Home: {childSelected: '1'},
@@ -72,16 +69,28 @@ var NavPanel = React.createClass({
   },
 
   handleClick: function(buttonName) {  // NOTE: use this handleClick wrapper because can't use 'bind' with setState - not sure why
-    console.log("Pre-setState: ", this.state.selected);
-    // var obj = {};
-    // obj[buttonName] = {selected: true};
+    // console.log("Pre-setState: ", this.state.selected);
     this.setState({selected: buttonName});
-    console.log("Post-setState: ", this.state.selected);
+    // console.log("Post-setState: ", this.state.selected);
   },
+
+  handleChildClick: function(parentName, childName, event) {
+    var obj = {};
+    if(childName) {
+      obj[parentName] = {childSelected: childName || this.state[parentName].childSelected};
+      this.setState(obj);
+    }
+    console.log(obj);
+  },
+
+  setStateWrapper: function(state) {
+    this.setState(state);
+  },
+
 
   render: function() {
     var self = this;
-    console.log(self.props);
+    // console.log(self.props);
     return (
       <ul>
         {self.props.buttons.map(function(button, key) {
@@ -91,6 +100,9 @@ var NavPanel = React.createClass({
               key={key}
               selected={self.state}
               handleClick={self.handleClick.bind(self, _getName(button))}
+              handleChildClick={self.setStateWrapper}
+              setStateWrapper={self.setStateWrapper}
+              children={self.props.buttons[key][_getName(button)]}
             />
         )})}
       </ul>

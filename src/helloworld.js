@@ -6,34 +6,38 @@ var NavButton = React.createClass({
     return {selected: 'Note'};
   },
 
-  setStyle: function() {
+  setParentStyle: function() {
     this.style = {
       backgroundColor: this.props.backgroundColor || 'lightgray',
       padding: '10px', 
     };
   },
 
-  handleClick: function() {
-    console.log('child clicked:' + childName);
+  getChildStyle: function(child) {
+    var color = (child === this.state.selected) ? 'blue' : 'black';
+    var visibility = (this.props.selected === this.props.name) ? 'visible' : 'hidden';
+    return {color: color, visibility: visibility}
+  },
+
+  handleChildClick: function(child) {
+    console.log('child clicked:' + child);
+    this.setState({selected: child});
   },
 
   render: function() {
     var self = this;
-    this.setStyle();
+    this.setParentStyle();
     this.style.color = (self.props.selected === this.props.name) ? 'blue' : 'black';
     
-    var children;
-    if (this.props.children) {
-      children = this.props.children.map(function(child, i) {
-        return <li onClick={self.handleClick.bind(self, child)} key={i}>{child}</li>;
-      });
-    }
-
+    this.props.children = this.props.children || [];
+    
     return (
       <li style={self.style} onClick={self.props.handleClick}>
         <div>{this.props.name}</div>
         <ul>
-          {children}
+          {children = this.props.children.map(function(child, i) {
+            return <li style={self.getChildStyle.call(self, child)} onClick={self.handleChildClick.bind(self, child)} key={i}>{child}</li>;
+          })}
         </ul>
       </li>
     )

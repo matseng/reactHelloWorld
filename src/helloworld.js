@@ -1,4 +1,4 @@
-//props, state, setState, render
+//props, state, setState, render, componentDidMount, componentWillUnmount
 
 var NavButton = React.createClass({
 
@@ -13,11 +13,7 @@ var NavButton = React.createClass({
     };
   },
 
-  onClick: function() {
-    if (this.props.onClick) this.props.onClick();
-  },
-
-  onChildClick: function(childName) {
+  handleClick: function() {
     console.log('child clicked:' + childName);
   },
 
@@ -29,12 +25,12 @@ var NavButton = React.createClass({
     var children;
     if (this.props.children) {
       children = this.props.children.map(function(child, i) {
-        return <li onClick={self.onChildClick.bind(self, child)} key={i}>{child}</li>;
+        return <li onClick={self.handleClick.bind(self, child)} key={i}>{child}</li>;
       });
     }
 
     return (
-      <li style={self.style} onClick={self.props.onClick}>
+      <li style={self.style} onClick={self.props.handleClick}>
         <div>{this.props.name}</div>
         <ul>
           {children}
@@ -51,22 +47,34 @@ var NavPanel = React.createClass({
     return {selected: 'Home'};
   },
 
-  onClick: function(buttonName) {  // NOTE: use this onClick wrapper because cant use 'bind' with setState
-    this.setState({selected: buttonName});
-    console.log(this.state.selected);
-  },
+  // onClick: function(buttonName) {  
+  //   this.setState({selected: buttonName});
+  // },
 
-  myTest: function(sel) {
-    this.setState(sel)
+  handleClick: function(state) {  // NOTE: use this handleClick wrapper because can't use 'bind' with setState - not sure why
+    console.log("Pre-setState: ", this.state.selected);
+    this.setState(state)
+    console.log("Post-setState: ", this.state.selected);
   },
 
   render: function() {
     var self = this;
-    console.log(this.state.selected);
+    console.log("In render: ", this.state.selected);
     return (
       <ul>
-        <NavButton name="Home" onClick={self.myTest.bind(self, {selected: 'Home'})} selected={self.state.selected} key='1' myKey='1'></NavButton>
-        <NavButton name="New" onClick={self.onClick.bind(self, "New")} selected={self.state.selected} children={['Delete', 'Group', 'Note', 'Arrow', 'More']} key='2' myKey='2'></NavButton>
+        <NavButton 
+          name="Home" 
+          handleClick={self.handleClick.bind(self, {selected: 'Home'})} 
+          selected={self.state.selected} 
+          key='1'>
+        </NavButton>
+        <NavButton
+          name="New" 
+          handleClick={self.handleClick.bind(self, {selected: "New"})}
+          selected={self.state.selected}
+          children={['Delete', 'Group', 'Note', 'Arrow', 'More']} 
+          key='2'>
+        </NavButton>
       </ul>
     )
     // return (

@@ -12,11 +12,11 @@ var NavButton = React.createClass({
   },
 
   getParentStyle: function() {
-    console.log(this.props.selected[this.props.name].selected);
+    // console.log(this.props.selected[this.props.name].selected);
     return {
       backgroundColor: this.props.backgroundColor || 'lightgray',
       padding: '10px', 
-      color: (this.props.selected[this.props.name].selected) ? 'blue' : 'black',
+      color: (this.props.selected.selected === this.props.name) ? 'blue' : 'black',
     };
   },
 
@@ -53,21 +53,29 @@ var NavPanel = React.createClass({
 
   getInitialState: function() {
     // return {selected: 'Home'};
+    // var state = {
+    //   Home: {selected: false, childSelected: '1'},
+    //   Feed: {selected: false, childSelected: '5'},
+    //   New: {selected: true, childSelected: 'Note'},
+    //   Search: {selected: false, childSelected: '9'},
+    //   More: {selected: false, childSelected: null}
+    // };
     var state = {
-      Home: {selected: false, childSelected: '1'},
-      Feed: {selected: false, childSelected: '5'},
-      New: {selected: true, childSelected: 'Note'},
-      Search: {selected: false, childSelected: '9'},
-      More: {selected: false, childSelected: null}
+      selected: "New",
+      Home: {childSelected: '1'},
+      Feed: {childSelected: '5'},
+      New: {childSelected: 'Note'},
+      Search: {childSelected: '9'},
+      More: {childSelected: null}
     };
     return state;
   },
 
   handleClick: function(buttonName) {  // NOTE: use this handleClick wrapper because can't use 'bind' with setState - not sure why
     console.log("Pre-setState: ", this.state.selected);
-    var obj = {};
-    obj[buttonName] = {selected: true};
-    this.setState(obj);
+    // var obj = {};
+    // obj[buttonName] = {selected: true};
+    this.setState({selected: buttonName});
     console.log("Post-setState: ", this.state.selected);
   },
 

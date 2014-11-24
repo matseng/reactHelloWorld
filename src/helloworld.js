@@ -1,4 +1,4 @@
-//props, state, setState, render, componentDidMount, componentWillUnmount
+//Built into React: props, state, getInitialState, setState, render, componentDidMount, componentWillUnmount
 
 var NavButton = React.createClass({
 
@@ -6,10 +6,11 @@ var NavButton = React.createClass({
     return {selected: 'Note'};
   },
 
-  setParentStyle: function() {
-    this.style = {
+  getParentStyle: function() {
+    return {
       backgroundColor: this.props.backgroundColor || 'lightgray',
       padding: '10px', 
+      color: (this.props.selected === this.props.name) ? 'blue' : 'black',
     };
   },
 
@@ -25,14 +26,10 @@ var NavButton = React.createClass({
   },
 
   render: function() {
-    var self = this;
-    this.setParentStyle();
-    this.style.color = (self.props.selected === this.props.name) ? 'blue' : 'black';
-    
+    var self = this;    
     this.props.children = this.props.children || [];
-    
     return (
-      <li style={self.style} onClick={self.props.handleClick}>
+      <li style={self.getParentStyle.call(self)} onClick={self.props.handleClick}>
         <div>{this.props.name}</div>
         <ul>
           {children = this.props.children.map(function(child, i) {
@@ -50,10 +47,6 @@ var NavPanel = React.createClass({
   getInitialState: function() {
     return {selected: 'Home'};
   },
-
-  // onClick: function(buttonName) {  
-  //   this.setState({selected: buttonName});
-  // },
 
   handleClick: function(state) {  // NOTE: use this handleClick wrapper because can't use 'bind' with setState - not sure why
     console.log("Pre-setState: ", this.state.selected);

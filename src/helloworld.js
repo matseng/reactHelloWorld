@@ -90,19 +90,20 @@ var NavPanel = React.createClass({
 
   render: function() {
     var self = this;
-    // console.log(self.props);
+    var name;
     return (
       <ul>
-        {self.props.buttons.map(function(button, key) {
+        {self.props.buttons.map(function(button, index) {
+          name = _getName(button);
           return (
             <NavButton 
-              name={_getName(button)}
-              key={key}
+              name={name}
+              key={index}
               selected={self.state}
-              handleClick={self.handleClick.bind(self, _getName(button))}
+              handleClick={self.setStateWrapper.bind(self, {selected: name})}
               handleChildClick={self.setStateWrapper}
               setStateWrapper={self.setStateWrapper}
-              children={self.props.buttons[key][_getName(button)]}
+              children={self.props.buttons[index][name]}
             />
         )})}
       </ul>

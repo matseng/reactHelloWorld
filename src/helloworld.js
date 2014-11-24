@@ -7,26 +7,29 @@ function _getName(obj) {
 var NavButton = React.createClass({
 
   getInitialState: function() {
-    return {selected: 'Note'};
+    // return {selected: 'Note'};
+    return this.props.selected;
   },
 
   getParentStyle: function() {
+    console.log(this.props.selected[this.props.name].selected);
     return {
       backgroundColor: this.props.backgroundColor || 'lightgray',
       padding: '10px', 
-      color: (this.props.selected === this.props.name) ? 'blue' : 'black',
+      color: (this.props.selected[this.props.name].selected) ? 'blue' : 'black',
     };
   },
 
   getChildStyle: function(child) {
-    var color = (child === this.state.selected) ? 'blue' : 'black';
-    var visibility = (this.props.selected === this.props.name) ? 'visible' : 'hidden';
+    var color = (child === this.state.selected.childSelected) ? 'blue' : 'black';
+    var visibility = (this.props.selected.selected) ? 'visible' : 'hidden';
     return {color: color, visibility: visibility}
   },
 
   handleChildClick: function(child) {
-    console.log('child clicked:' + child);
-    this.setState({selected: child});
+    // console.log('child clicked:' + child);
+    // this.state.selected.childSelected = child;
+    this.setState(this.state.selected.childSelected = child);
   },
 
   render: function() {
@@ -55,13 +58,16 @@ var NavPanel = React.createClass({
       Feed: {selected: false, childSelected: '5'},
       New: {selected: true, childSelected: 'Note'},
       Search: {selected: false, childSelected: '9'},
+      More: {selected: false, childSelected: null}
     };
     return state;
   },
 
-  handleClick: function(state) {  // NOTE: use this handleClick wrapper because can't use 'bind' with setState - not sure why
+  handleClick: function(buttonName) {  // NOTE: use this handleClick wrapper because can't use 'bind' with setState - not sure why
     console.log("Pre-setState: ", this.state.selected);
-    this.setState(state)
+    var obj = {};
+    obj[buttonName] = {selected: true};
+    this.setState(obj);
     console.log("Post-setState: ", this.state.selected);
   },
 
@@ -71,11 +77,34 @@ var NavPanel = React.createClass({
     return (
       <ul>
         {self.props.buttons.map(function(button, key) {
-          return <li key={key}>{_getName(button)}</li>
-        })}
+          return (
+            <NavButton 
+              name={_getName(button)}
+              key={key}
+              selected={self.state}
+              handleClick={self.handleClick.bind(self, _getName(button))}
+            />
+        )})}
       </ul>
     );
   },
+  // render: function() {
+  //   var self = this;
+  //   console.log(self.props);
+  //   return (
+  //     <ul>
+  //       {self.props.buttons.map(function(button, key) {
+  //         return 
+  //           <NavButton 
+  //             name={_getName(button)}
+  //             key={key}
+  //             handleClick={self.handleClick.bind(self,_getName(button))}
+  //             selected={button}
+  //           />
+  //       })}
+  //     </ul>
+  //   );
+  // },
 
   render_OLD: function() {
     var self = this;

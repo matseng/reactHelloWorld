@@ -1,0 +1,16 @@
+body {
+  margin: 0;
+}
+
+ul, li {
+  display: inline;
+}
+
+#nav-panel-bottom {
+  width: 100%;
+  background-color: lightgray;
+}
+
+.parentButtonPanel {
+  /*width: 100%;*/
+}

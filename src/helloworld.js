@@ -14,7 +14,7 @@ var NavButton = React.createClass({
   getParentStyle: function() {
     // console.log(this.props.selected[this.props.name].selected);
     return {
-      backgroundColor: this.props.backgroundColor || 'lightgray',
+      // backgroundColor: this.props.backgroundColor || 'lightgray',
       padding: '10px', 
       color: (this.props.selected.selected === this.props.name) ? 'blue' : 'black',
     };
@@ -41,8 +41,8 @@ var NavButton = React.createClass({
     var self = this;    
     this.props.children = this.props.children || [];
     return (
-      <li style={self.getParentStyle.call(self)} onClick={self.props.handleClick}>
-        <div>{this.props.name}</div>
+      <li className='button' style={self.getParentStyle.call(self)} onClick={self.props.handleClick}>
+        <span>{this.props.name}</span>
         <ul>
           {children = this.props.children.map(function(child, i) {
             return <li style={self.getChildStyle.call(self, child)} onClick={self.handleChildClick.bind(self, child)} key={i}>{child}</li>;
@@ -92,7 +92,7 @@ var NavPanel = React.createClass({
     var self = this;
     var name;
     return (
-      <ul>
+      <ul className='parentButtonPanel'>
         {self.props.buttons.map(function(button, index) {
           name = _getName(button);
           return (
@@ -161,6 +161,6 @@ React.render(<NavPanel arr={[1,2,3]} buttons={
   {Feed: ['4', '5', '6']},
   {New: ['Delete', 'Group', 'Note', 'Arrow', 'More']},
   {Search: ['7','8','9']},
-  {More: null},
+  {More: []},
   ]
-}/>, document.getElementById('nav-panel'));
+}/>, document.getElementById('nav-panel-bottom'));

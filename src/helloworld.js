@@ -13,9 +13,11 @@ var NavButton = React.createClass({
 
   getParentStyle: function() {
     // console.log(this.props.selected[this.props.name].selected);
+    var count = 5;
     return {
-      // backgroundColor: this.props.backgroundColor || 'lightgray',
-      padding: '10px', 
+      backgroundColor: this.props.backgroundColor || 'lightgray',
+      textAlign: 'center',
+      width: 100 / count + '%',
       color: (this.props.selected.selected === this.props.name) ? 'blue' : 'black',
     };
   },
@@ -48,6 +50,7 @@ var NavButton = React.createClass({
             return <li style={self.getChildStyle.call(self, child)} onClick={self.handleChildClick.bind(self, child)} key={i}>{child}</li>;
           })}
         </ul>
+
       </li>
     )
   }

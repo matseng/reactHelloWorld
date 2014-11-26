@@ -3,8 +3,15 @@ body {
 }
 
 ul, li {
-  display: inline;
+  padding: 0;
 }
+li {
+  /*display: inline;*/
+  /*padding: 0 0 0 0;*/
+  /*width: 20%;*/
+  float: left;
+}
+
 
 #nav-panel-bottom {
   width: 100%;
@@ -13,4 +20,8 @@ ul, li {
 
 .parentButtonPanel {
   /*width: 100%;*/
+}
+
+.button {
+  height: 100px;
 }

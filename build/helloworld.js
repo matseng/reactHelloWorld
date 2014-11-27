@@ -1,5 +1,29 @@
 //Built into React: props, state, getInitialState, setState, render, componentDidMount, componentWillUnmount
 
+var _sheet = (function() {  // http://davidwalsh.name/add-rules-stylesheets
+  // Create the <style> tag
+  var style = document.createElement("style");
+
+  // Add a media (and/or media query) here if you'd like!
+  // style.setAttribute("media", "screen")
+  // style.setAttribute("media", "only screen and (max-width : 1024px)")
+
+  // WebKit hack :(
+  style.appendChild(document.createTextNode(""));
+
+  // Add the <style> element to the page
+  document.head.appendChild(style);
+
+  return style.sheet;
+})();
+
+(function() {
+  _sheet.insertRule(
+    ".button {  \
+      background-color: lightgray; \
+    }", _sheet.cssRules.length);
+})();
+
 function _getName(obj) {
   return Object.keys(obj)[0];
 };
@@ -16,15 +40,15 @@ var NavButton = React.createClass({displayName: 'NavButton',
     var count = 5;
     var height = 4;
     return {
-      backgroundColor: this.props.backgroundColor || 'lightgray',
-      textAlign: 'center',
-      width: 100 / count + '%',
-      height: 4 + 'em',
-      'maxWidth': 2 * height + 'em',
+      // backgroundColor: this.props.backgroundColor || 'lightgray',
+      // textAlign: 'center',
+      // width: 100 / count + '%',
+      // height: 4 + 'em',
+      // 'maxWidth': 2 * height + 'em',
       color: (this.props.selected.selected === this.props.name) ? 'blue' : 'black',
       float: 'left',
-      position: 'relative',
-      display: 'block',
+      // position: 'relative',
+      // display: 'block',
     };
   },
 
@@ -51,6 +75,16 @@ var NavButton = React.createClass({displayName: 'NavButton',
   },
 
   render: function() {
+    var self = this;    
+    this.props.children = this.props.children || [];
+    return (
+      React.createElement("li", {className: "button", style: self.getParentStyle.call(self), onClick: self.props.handleClick}, 
+        React.createElement("span", null, this.props.name)
+      )
+    )
+  },
+
+  render_OLD: function() {
     var self = this;    
     this.props.children = this.props.children || [];
     return (
@@ -106,21 +140,23 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
     var self = this;
     var name;
     return (
-      React.createElement("ul", {className: "parentButtonPanel", style: {margin: 0, listStyleType: 'none'}}, 
-        self.props.buttons.map(function(button, index) {
-          name = _getName(button);
-          return (
-            React.createElement(NavButton, {
-              name: name, 
-              key: index, 
-              selected: self.state, 
-              handleClick: self.setStateWrapper.bind(self, {selected: name}), 
-              handleChildClick: self.setStateWrapper, 
-              setStateWrapper: self.setStateWrapper, 
-              children: self.props.buttons[index][name], 
-              parentElement: {}}
-            )
-        )})
+      React.createElement("div", {style: {float: 'right', position:'relative', left:'-50%',  textAlign:'left'}}, 
+        React.createElement("ul", {className: "parentButtonPanel", style: {listStyle: 'none', position: 'relative', margin: 0, left:'50%'}}, 
+          self.props.buttons.map(function(button, index) {
+            name = _getName(button);
+            return (
+              React.createElement(NavButton, {
+                name: name, 
+                key: index, 
+                selected: self.state, 
+                handleClick: self.setStateWrapper.bind(self, {selected: name}), 
+                handleChildClick: self.setStateWrapper, 
+                setStateWrapper: self.setStateWrapper, 
+                children: self.props.buttons[index][name], 
+                parentElement: {}}
+              )
+          )})
+        )
       )
     );
   },

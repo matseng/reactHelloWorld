@@ -18,13 +18,13 @@ var NavButton = React.createClass({
     return {
       backgroundColor: this.props.backgroundColor || 'lightgray',
       textAlign: 'center',
-      width: 100 / count + '%',
-      height: 4 + 'em',
-      'maxWidth': 2 * height + 'em',
+      // width: 100 / count + '%',
+      // height: 4 + 'em',
+      // 'maxWidth': 2 * height + 'em',
       color: (this.props.selected.selected === this.props.name) ? 'blue' : 'black',
-      float: 'left',
+      // float: 'left',
       position: 'relative',
-      display: 'block',
+      // display: 'block',
     };
   },
 

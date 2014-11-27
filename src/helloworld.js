@@ -14,11 +14,17 @@ var NavButton = React.createClass({
   getParentStyle: function() {
     // console.log(this.props.selected[this.props.name].selected);
     var count = 5;
+    var height = 4;
     return {
       backgroundColor: this.props.backgroundColor || 'lightgray',
       textAlign: 'center',
       width: 100 / count + '%',
+      height: 4 + 'em',
+      'maxWidth': 2 * height + 'em',
       color: (this.props.selected.selected === this.props.name) ? 'blue' : 'black',
+      float: 'left',
+      position: 'relative',
+      display: 'block',
     };
   },
 
@@ -27,7 +33,12 @@ var NavButton = React.createClass({
     // console.log(name);
     var color = (child === this.props.selected[this.props.name].childSelected) ? 'blue' : 'black';
     var visibility = (this.props.selected.selected === this.props.name) ? 'visible' : 'hidden';
-    return {color: color, visibility: visibility}
+    
+    return {color: color,
+      visibility: visibility,
+      float: 'left',
+      position: 'absolute',
+    };
   },
 
   handleChildClick: function(child) {
@@ -44,8 +55,8 @@ var NavButton = React.createClass({
     this.props.children = this.props.children || [];
     return (
       <li className='button' style={self.getParentStyle.call(self)} onClick={self.props.handleClick}>
-        <span>{this.props.name}</span>
-        <ul>
+        <span style={{bottom:0, position:'absolute'}}>{this.props.name}</span>
+        <ul style={{'listStyleType': 'none'}}>
           {children = this.props.children.map(function(child, i) {
             return <li style={self.getChildStyle.call(self, child)} onClick={self.handleChildClick.bind(self, child)} key={i}>{child}</li>;
           })}
@@ -60,6 +71,7 @@ var NavButton = React.createClass({
 var NavPanel = React.createClass({
 
   getInitialState: function() {
+    console.log(this.props);
     var state = {
       selected: "New",
       Home: {childSelected: '1'},
@@ -90,12 +102,11 @@ var NavPanel = React.createClass({
     this.setState(state);
   },
 
-
   render: function() {
     var self = this;
     var name;
     return (
-      <ul className='parentButtonPanel'>
+      <ul className='parentButtonPanel'  style={{margin: 0, listStyleType: 'none'}}>
         {self.props.buttons.map(function(button, index) {
           name = _getName(button);
           return (
@@ -107,55 +118,18 @@ var NavPanel = React.createClass({
               handleChildClick={self.setStateWrapper}
               setStateWrapper={self.setStateWrapper}
               children={self.props.buttons[index][name]}
+              parentElement= {{}}
             />
         )})}
       </ul>
     );
   },
-  // render: function() {
-  //   var self = this;
-  //   console.log(self.props);
-  //   return (
-  //     <ul>
-  //       {self.props.buttons.map(function(button, key) {
-  //         return 
-  //           <NavButton 
-  //             name={_getName(button)}
-  //             key={key}
-  //             handleClick={self.handleClick.bind(self,_getName(button))}
-  //             selected={button}
-  //           />
-  //       })}
-  //     </ul>
-  //   );
-  // },
-
-  render_OLD: function() {
-    var self = this;
-    console.log("In render: ", this.state.selected);
-    return (
-      <ul>
-        <NavButton 
-          name="Home" 
-          handleClick={self.handleClick.bind(self, {selected: 'Home'})} 
-          selected={self.state.selected} 
-          key='1'>
-        </NavButton>
-        <NavButton
-          name="New" 
-          handleClick={self.handleClick.bind(self, {selected: "New"})}
-          selected={self.state.selected}
-          children={['Delete', 'Group', 'Note', 'Arrow', 'More']} 
-          key='2'>
-        </NavButton>
-      </ul>
-    )
-  },
-
 });
 
 // React.render(<NavButton name='Home'/>, 
 //   document.getElementById('nav-panel'));
+
+
 
 // React.render(<NavPanel buttons={ [{name: 'Home'}, {name: 'Feed'}, {name: 'New'}, {name: 'Search'}, {name: 'Recent'}] }/>,
 React.render(<NavPanel arr={[1,2,3]} buttons={

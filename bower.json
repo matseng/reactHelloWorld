@@ -1,0 +1,19 @@
+{
+  "name": "reactHelloWorld",
+  "version": "0.0.0",
+  "homepage": "https://github.com/matseng/reactHelloWorld",
+  "authors": [
+    "Michael Tseng <matseng@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ionicons": "~1.5.2"
+  }
+}

@@ -77,8 +77,10 @@ var NavButton = React.createClass({displayName: 'NavButton',
   render: function() {
     var self = this;    
     this.props.children = this.props.children || [];
+    var className = 'button ' + self.props.iconClass;
+    console.log(className);
     return (
-      React.createElement("li", {className: "button", style: self.getParentStyle.call(self), onClick: self.props.handleClick}, 
+      React.createElement("li", {className: className, style: self.getParentStyle.call(self), onClick: self.props.handleClick}, 
         React.createElement("span", null, this.props.name)
       )
     )
@@ -143,7 +145,8 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
       React.createElement("div", {style: {float: 'right', position:'relative', left:'-50%',  textAlign:'left'}}, 
         React.createElement("ul", {className: "parentButtonPanel", style: {listStyle: 'none', position: 'relative', margin: 0, left:'50%'}}, 
           self.props.buttons.map(function(button, index) {
-            name = _getName(button);
+            // name = _getName(button);
+            name = button.name;
             return (
               React.createElement(NavButton, {
                 name: name, 
@@ -152,8 +155,8 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
                 handleClick: self.setStateWrapper.bind(self, {selected: name}), 
                 handleChildClick: self.setStateWrapper, 
                 setStateWrapper: self.setStateWrapper, 
-                children: self.props.buttons[index][name], 
-                parentElement: {}}
+                children: button.children, 
+                iconClass: button.iconClass}
               )
           )})
         )
@@ -162,18 +165,32 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
   },
 });
 
-// React.render(<NavButton name='Home'/>, 
-//   document.getElementById('nav-panel'));
+// React.render(<NavPanel arr={[1,2,3]} buttons={
+//   [
+//   {Home: ['1','2','3']},
+//   {Feed: ['4', '5', '6']},
+//   {New: ['Delete', 'Group', 'Note', 'Arrow', 'More']},
+//   {Search: ['7','8','9']},
+//   {More: []},
+//   ]
+// }/>, document.getElementById('nav-panel-bottom'));
 
-
-
-// React.render(<NavPanel buttons={ [{name: 'Home'}, {name: 'Feed'}, {name: 'New'}, {name: 'Search'}, {name: 'Recent'}] }/>,
 React.render(React.createElement(NavPanel, {arr: [1,2,3], buttons: 
   [
-  {Home: ['1','2','3']},
-  {Feed: ['4', '5', '6']},
-  {New: ['Delete', 'Group', 'Note', 'Arrow', 'More']},
-  {Search: ['7','8','9']},
-  {More: []},
+  {name: 'Home',
+  iconClass: 'xxxx', 
+  children: ['1','2','3']},
+  {name: 'Feed',
+  iconClass: 'xxx',
+  children: ['4', '5', '6']},
+  {name: 'New',
+  iconClass: 'ion-android-lightbulb', 
+  children: ['Delete', 'Group', 'Note', 'Arrow', 'More']},
+  {name: 'Search',
+  iconClass: 'xxx', 
+  children: ['7','8','9']},
+  {name: 'More',
+  iconClass: 'xxx',
+  children: []},
   ]
 }), document.getElementById('nav-panel-bottom'));

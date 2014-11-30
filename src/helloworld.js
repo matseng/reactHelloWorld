@@ -165,15 +165,7 @@ var NavPanel = React.createClass({
   },
 });
 
-// React.render(<NavPanel arr={[1,2,3]} buttons={
-//   [
-//   {Home: ['1','2','3']},
-//   {Feed: ['4', '5', '6']},
-//   {New: ['Delete', 'Group', 'Note', 'Arrow', 'More']},
-//   {Search: ['7','8','9']},
-//   {More: []},
-//   ]
-// }/>, document.getElementById('nav-panel-bottom'));
+React.initializeTouchEvents(true);
 
 React.render(<NavPanel arr={[1,2,3]} buttons={
   [

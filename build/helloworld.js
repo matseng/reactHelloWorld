@@ -79,7 +79,7 @@ var NavButton = React.createClass({displayName: 'NavButton',
     this.props.children = this.props.children || [];
     // console.log(className);
     return (
-      React.createElement("li", {className: "button", style: self.getParentStyle.call(self), onClick: self.props.handleClick}, 
+      React.createElement("li", {className: "button", style: self.getParentStyle.call(self), onTouchStart: self.props.handleClick}, 
         React.createElement("div", {className: self.props.iconClass}), 
         React.createElement("div", {className: "name"}, this.props.name)
       )
@@ -165,15 +165,7 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
   },
 });
 
-// React.render(<NavPanel arr={[1,2,3]} buttons={
-//   [
-//   {Home: ['1','2','3']},
-//   {Feed: ['4', '5', '6']},
-//   {New: ['Delete', 'Group', 'Note', 'Arrow', 'More']},
-//   {Search: ['7','8','9']},
-//   {More: []},
-//   ]
-// }/>, document.getElementById('nav-panel-bottom'));
+React.initializeTouchEvents(true);
 
 React.render(React.createElement(NavPanel, {arr: [1,2,3], buttons: 
   [

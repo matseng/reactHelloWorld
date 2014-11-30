@@ -31,10 +31,6 @@ li {
   /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
   font-size: 1.5em;
   width: 20%;
-}
-
-.button > .name {
-  font-size: .5em;
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
@@ -44,8 +40,22 @@ li {
   user-select: none;
 }
 
+.button > .name {
+  font-size: .5em;
+}
+
 *:active {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
   -moz-tap-highlight-color: rgba(0,0,0,0);
   tap-highlight-color: rgba(0,0,0,0);
+}
+
+::selection {
+  background: none;
+}
+::-moz-selection {
+  background: none;
+}
+::-webkit-selection {
+  background: none;
 }

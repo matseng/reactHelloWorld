@@ -79,7 +79,7 @@ var NavButton = React.createClass({
     this.props.children = this.props.children || [];
     // console.log(className);
     return (
-      <li className='button' style={self.getParentStyle.call(self)} onClick={self.props.handleClick}>
+      <li className='button' style={self.getParentStyle.call(self)} onClick={self.props.handleClick} onTouchStart={self.props.handleClick}>
         <div className={self.props.iconClass}></div>
         <div className='name'>{this.props.name}</div>
       </li>

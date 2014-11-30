@@ -15,10 +15,24 @@ li {
 
 #nav-panel-bottom {
   width: 100%;
-  background-color: lightgray;
+  /*background-color: lightgray;*/
+  text-align: center;
+  font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 12px;
+  color: #888;
 }
 
 .parentButtonPanel {
   /*width: 100%;*/
 }
 
+.button {
+  text-align: center;
+  /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+  font-size: 18px;
+  width: 20%;
+}
+
+.button > .name {
+  font-size: 12px;
+}

@@ -2,3 +2,4 @@ build/*
 !build/helloworld.js
 node_modules/*
 !node_modules/react
+bower_components

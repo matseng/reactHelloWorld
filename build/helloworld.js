@@ -17,12 +17,12 @@ var _sheet = (function() {  // http://davidwalsh.name/add-rules-stylesheets
   return style.sheet;
 })();
 
-(function() {
-  _sheet.insertRule(
-    ".button {  \
-      background-color: lightgray; \
-    }", _sheet.cssRules.length);
-})();
+// (function() {
+//   _sheet.insertRule(
+//     ".button {  \
+//       background-color: lightgray; \
+//     }", _sheet.cssRules.length);
+// })();
 
 function _getName(obj) {
   return Object.keys(obj)[0];
@@ -45,7 +45,7 @@ var NavButton = React.createClass({displayName: 'NavButton',
       // width: 100 / count + '%',
       // height: 4 + 'em',
       // 'maxWidth': 2 * height + 'em',
-      color: (this.props.selected.selected === this.props.name) ? 'blue' : 'black',
+      color: (this.props.selected.selected === this.props.name) ? '#4F8EF7' : 'inherit',
       float: 'left',
       // position: 'relative',
       // display: 'block',
@@ -77,11 +77,11 @@ var NavButton = React.createClass({displayName: 'NavButton',
   render: function() {
     var self = this;    
     this.props.children = this.props.children || [];
-    var className = 'button ' + self.props.iconClass;
-    console.log(className);
+    // console.log(className);
     return (
-      React.createElement("li", {className: className, style: self.getParentStyle.call(self), onClick: self.props.handleClick}, 
-        React.createElement("span", null, this.props.name)
+      React.createElement("li", {className: "button", style: self.getParentStyle.call(self), onClick: self.props.handleClick}, 
+        React.createElement("div", {className: self.props.iconClass}), 
+        React.createElement("div", {className: "name"}, this.props.name)
       )
     )
   },
@@ -142,7 +142,7 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
     var self = this;
     var name;
     return (
-      React.createElement("div", {style: {float: 'right', position:'relative', left:'-50%',  textAlign:'left'}}, 
+      React.createElement("div", {style: {float: 'right', position:'relative', left:'-50%',  textAlign:'left', width:'100%'}}, 
         React.createElement("ul", {className: "parentButtonPanel", style: {listStyle: 'none', position: 'relative', margin: 0, left:'50%'}}, 
           self.props.buttons.map(function(button, index) {
             // name = _getName(button);
@@ -178,19 +178,20 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
 React.render(React.createElement(NavPanel, {arr: [1,2,3], buttons: 
   [
   {name: 'Home',
-  iconClass: 'xxxx', 
+  iconClass: 'ion-home', 
   children: ['1','2','3']},
   {name: 'Feed',
-  iconClass: 'xxx',
+  iconClass: 'ion-android-sort',
   children: ['4', '5', '6']},
   {name: 'New',
   iconClass: 'ion-android-lightbulb', 
   children: ['Delete', 'Group', 'Note', 'Arrow', 'More']},
   {name: 'Search',
-  iconClass: 'xxx', 
+  iconClass: 'ion-search', 
   children: ['7','8','9']},
   {name: 'More',
-  iconClass: 'xxx',
+  // iconClass: 'ion-arrow-right-b',
+  iconClass: 'ion-chevron-right',
   children: []},
   ]
 }), document.getElementById('nav-panel-bottom'));

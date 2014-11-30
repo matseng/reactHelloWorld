@@ -37,8 +37,8 @@ var NavButton = React.createClass({
 
   getParentStyle: function() {
     // console.log(this.props.selected[this.props.name].selected);
-    var count = 5;
     var height = 4;
+    console.log(this.props);
     return {
       // backgroundColor: this.props.backgroundColor || 'lightgray',
       // textAlign: 'center',
@@ -47,6 +47,7 @@ var NavButton = React.createClass({
       // 'maxWidth': 2 * height + 'em',
       color: (this.props.selected.selected === this.props.name) ? '#4F8EF7' : 'inherit',
       float: 'left',
+      width: 100 / this.props.count + '%',
       // position: 'relative',
       // display: 'block',
     };
@@ -156,6 +157,7 @@ var NavPanel = React.createClass({
                 setStateWrapper={self.setStateWrapper}
                 children={button.children}
                 iconClass={button.iconClass}
+                count={self.props.buttonList.buttons.length}
               />
           )})}
         </ul>

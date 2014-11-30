@@ -109,7 +109,7 @@ var NavPanel = React.createClass({
   getInitialState: function() {
     console.log(this.props);
     var state = {
-      selected: this.props.buttons[this.props.selected].name,
+      selected: this.props.buttonList.getSelectedName(),
       Home: {childSelected: '1'},
       Feed: {childSelected: '5'},
       New: {childSelected: 'Note'},
@@ -144,7 +144,7 @@ var NavPanel = React.createClass({
     return (
       <div style={{float: 'right', position:'relative', left:'-50%',  textAlign:'left', width:'100%'}}>
         <ul className='parentButtonPanel'  style={{listStyle: 'none', position: 'relative', margin: 0, left:'50%'}}>
-          {self.props.buttons.map(function(button, index) {
+          {self.props.buttonList.buttons.map(function(button, index) {
             name = button.name;
             return (
               <NavButton 
@@ -167,23 +167,27 @@ var NavPanel = React.createClass({
 function Button(name, iconClass, buttonList) {
   this.name = name;
   this.iconClass = iconClass;
-  this.children = buttonList;
+  this.buttonList = buttonList;
 };
 
-function ButtonList(children, selected) {
-  this.buttons = children;
+function ButtonList(selected, buttons) {
   this.selected = selected;
+  this.buttons = buttons;
 };
+
+ButtonList.prototype.getSelectedName = function() {
+  return this.buttons[this.selected].name;
+}
 
 React.initializeTouchEvents(true);
 
-React.render(<NavPanel selected={0} buttons={[ 
+React.render(<NavPanel buttonList={ new ButtonList(0, [
   new Button('Home', 'ion-home'),
   new Button('Feed','ion-android-sort'),
   new Button('New', 'ion-android-lightbulb'),
   new Button('Search', 'ion-search'), 
   new Button('More', 'ion-chevron-right'),
-]}/>, document.getElementById('nav-panel-bottom'));
+])}/>, document.getElementById('nav-panel-bottom'));
 
 // React.render(<NavPanel buttons={
 //   [

@@ -86,21 +86,21 @@ var NavButton = React.createClass({
     )
   },
 
-  render_OLD: function() {
-    var self = this;    
-    this.props.children = this.props.children || [];
-    return (
-      <li className='button' style={self.getParentStyle.call(self)} onClick={self.props.handleClick}>
-        <span style={{bottom:0, position:'absolute'}}>{this.props.name}</span>
-        <ul style={{'listStyleType': 'none'}}>
-          {children = this.props.children.map(function(child, i) {
-            return <li style={self.getChildStyle.call(self, child)} onClick={self.handleChildClick.bind(self, child)} key={i}>{child}</li>;
-          })}
-        </ul>
+  // render_OLD: function() {
+  //   var self = this;    
+  //   this.props.children = this.props.children || [];
+  //   return (
+  //     <li className='button' style={self.getParentStyle.call(self)} onClick={self.props.handleClick}>
+  //       <span style={{bottom:0, position:'absolute'}}>{this.props.name}</span>
+  //       <ul style={{'listStyleType': 'none'}}>
+  //         {children = this.props.children.map(function(child, i) {
+  //           return <li style={self.getChildStyle.call(self, child)} onClick={self.handleChildClick.bind(self, child)} key={i}>{child}</li>;
+  //         })}
+  //       </ul>
 
-      </li>
-    )
-  }
+  //     </li>
+  //   )
+  // }
 
 });
 
@@ -109,7 +109,7 @@ var NavPanel = React.createClass({
   getInitialState: function() {
     console.log(this.props);
     var state = {
-      selected: "New",
+      selected: this.props.buttons[this.props.selected].name,
       Home: {childSelected: '1'},
       Feed: {childSelected: '5'},
       New: {childSelected: 'Note'},
@@ -145,7 +145,6 @@ var NavPanel = React.createClass({
       <div style={{float: 'right', position:'relative', left:'-50%',  textAlign:'left', width:'100%'}}>
         <ul className='parentButtonPanel'  style={{listStyle: 'none', position: 'relative', margin: 0, left:'50%'}}>
           {self.props.buttons.map(function(button, index) {
-            // name = _getName(button);
             name = button.name;
             return (
               <NavButton 
@@ -165,25 +164,44 @@ var NavPanel = React.createClass({
   },
 });
 
+function Button(name, iconClass, buttonList) {
+  this.name = name;
+  this.iconClass = iconClass;
+  this.children = buttonList;
+};
+
+function ButtonList(children, selected) {
+  this.buttons = children;
+  this.selected = selected;
+};
+
 React.initializeTouchEvents(true);
 
-React.render(<NavPanel arr={[1,2,3]} buttons={
-  [
-  {name: 'Home',
-  iconClass: 'ion-home', 
-  children: ['1','2','3']},
-  {name: 'Feed',
-  iconClass: 'ion-android-sort',
-  children: ['4', '5', '6']},
-  {name: 'New',
-  iconClass: 'ion-android-lightbulb', 
-  children: ['Delete', 'Group', 'Note', 'Arrow', 'More']},
-  {name: 'Search',
-  iconClass: 'ion-search', 
-  children: ['7','8','9']},
-  {name: 'More',
-  // iconClass: 'ion-arrow-right-b',
-  iconClass: 'ion-chevron-right',
-  children: []},
-  ]
-}/>, document.getElementById('nav-panel-bottom'));
+React.render(<NavPanel selected={0} buttons={[ 
+  new Button('Home', 'ion-home'),
+  new Button('Feed','ion-android-sort'),
+  new Button('New', 'ion-android-lightbulb'),
+  new Button('Search', 'ion-search'), 
+  new Button('More', 'ion-chevron-right'),
+]}/>, document.getElementById('nav-panel-bottom'));
+
+// React.render(<NavPanel buttons={
+//   [
+//   {name: 'Home',
+//   iconClass: 'ion-home', 
+//   children: ['1','2','3']},
+//   {name: 'Feed',
+//   iconClass: 'ion-android-sort',
+//   children: ['4', '5', '6']},
+//   {name: 'New',
+//   iconClass: 'ion-android-lightbulb', 
+//   children: ['Delete', 'Group', 'Note', 'Arrow', 'More']},
+//   {name: 'Search',
+//   iconClass: 'ion-search', 
+//   children: ['7','8','9']},
+//   {name: 'More',
+//   // iconClass: 'ion-arrow-right-b',
+//   iconClass: 'ion-chevron-right',
+//   children: []},
+//   ]
+// }/>, document.getElementById('nav-panel-bottom'));

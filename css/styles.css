@@ -17,8 +17,8 @@ li {
   width: 100%;
   /*background-color: lightgray;*/
   text-align: center;
-  font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 12px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1em;
   color: #888;
 }
 
@@ -29,10 +29,10 @@ li {
 .button {
   text-align: center;
   /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
-  font-size: 18px;
+  font-size: 1.5em;
   width: 20%;
 }
 
 .button > .name {
-  font-size: 12px;
+  font-size: .5em;
 }

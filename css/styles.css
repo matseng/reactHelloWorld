@@ -17,7 +17,11 @@ li {
   position: fixed;
   bottom: 0;
   width: 100%;
-  /*background-color: lightgray;*/
+}
+
+.nav-panel-container {
+  position: relative;
+  width: 100%;
   text-align: center;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1em;

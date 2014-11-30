@@ -36,9 +36,6 @@ var NavButton = React.createClass({displayName: 'NavButton',
   },
 
   getParentStyle: function() {
-    // console.log(this.props.selected[this.props.name].selected);
-    var height = 4;
-    console.log(this.props);
     return {
       // backgroundColor: this.props.backgroundColor || 'lightgray',
       // textAlign: 'center',
@@ -108,7 +105,6 @@ var NavButton = React.createClass({displayName: 'NavButton',
 var NavPanel = React.createClass({displayName: 'NavPanel',
 
   getInitialState: function() {
-    console.log(this.props);
     var state = {
       selected: this.props.buttonList.getSelectedName(),
       Home: {childSelected: '1'},
@@ -143,23 +139,25 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
     var self = this;
     var name;
     return (
-      React.createElement("div", {style: {float: 'right', position:'relative', left:'-50%',  textAlign:'left', width:'100%'}}, 
-        React.createElement("ul", {className: "parentButtonPanel", style: {listStyle: 'none', position: 'relative', margin: 0, left:'50%'}}, 
-          self.props.buttonList.buttons.map(function(button, index) {
-            name = button.name;
-            return (
-              React.createElement(NavButton, {
-                name: name, 
-                key: index, 
-                selected: self.state, 
-                handleClick: self.setStateWrapper.bind(self, {selected: name}), 
-                handleChildClick: self.setStateWrapper, 
-                setStateWrapper: self.setStateWrapper, 
-                children: button.children, 
-                iconClass: button.iconClass, 
-                count: self.props.buttonList.buttons.length}
-              )
-          )})
+      React.createElement("div", {className: "nav-panel-container"}, 
+        React.createElement("div", {style: {float: 'right', position:'relative', left:'-50%',  textAlign:'left', width:'100%'}}, 
+          React.createElement("ul", {className: "parentButtonPanel", style: {listStyle: 'none', position: 'relative', margin: 0, left:'50%'}}, 
+            self.props.buttonList.buttons.map(function(button, index) {
+              name = button.name;
+              return (
+                React.createElement(NavButton, {
+                  name: name, 
+                  key: index, 
+                  selected: self.state, 
+                  handleClick: self.setStateWrapper.bind(self, {selected: name}), 
+                  handleChildClick: self.setStateWrapper, 
+                  setStateWrapper: self.setStateWrapper, 
+                  children: button.children, 
+                  iconClass: button.iconClass, 
+                  count: self.props.buttonList.buttons.length}
+                )
+            )})
+          )
         )
       )
     );

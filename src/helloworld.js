@@ -36,9 +36,6 @@ var NavButton = React.createClass({
   },
 
   getParentStyle: function() {
-    // console.log(this.props.selected[this.props.name].selected);
-    var height = 4;
-    console.log(this.props);
     return {
       // backgroundColor: this.props.backgroundColor || 'lightgray',
       // textAlign: 'center',
@@ -108,7 +105,6 @@ var NavButton = React.createClass({
 var NavPanel = React.createClass({
 
   getInitialState: function() {
-    console.log(this.props);
     var state = {
       selected: this.props.buttonList.getSelectedName(),
       Home: {childSelected: '1'},
@@ -143,24 +139,26 @@ var NavPanel = React.createClass({
     var self = this;
     var name;
     return (
-      <div style={{float: 'right', position:'relative', left:'-50%',  textAlign:'left', width:'100%'}}>
-        <ul className='parentButtonPanel'  style={{listStyle: 'none', position: 'relative', margin: 0, left:'50%'}}>
-          {self.props.buttonList.buttons.map(function(button, index) {
-            name = button.name;
-            return (
-              <NavButton 
-                name={name}
-                key={index}
-                selected={self.state}
-                handleClick={self.setStateWrapper.bind(self, {selected: name})}
-                handleChildClick={self.setStateWrapper}
-                setStateWrapper={self.setStateWrapper}
-                children={button.children}
-                iconClass={button.iconClass}
-                count={self.props.buttonList.buttons.length}
-              />
-          )})}
-        </ul>
+      <div className='nav-panel-container'>
+        <div style={{float: 'right', position:'relative', left:'-50%',  textAlign:'left', width:'100%'}}>
+          <ul className='parentButtonPanel'  style={{listStyle: 'none', position: 'relative', margin: 0, left:'50%'}}>
+            {self.props.buttonList.buttons.map(function(button, index) {
+              name = button.name;
+              return (
+                <NavButton 
+                  name={name}
+                  key={index}
+                  selected={self.state}
+                  handleClick={self.setStateWrapper.bind(self, {selected: name})}
+                  handleChildClick={self.setStateWrapper}
+                  setStateWrapper={self.setStateWrapper}
+                  children={button.children}
+                  iconClass={button.iconClass}
+                  count={self.props.buttonList.buttons.length}
+                />
+            )})}
+          </ul>
+        </div>
       </div>
     );
   },

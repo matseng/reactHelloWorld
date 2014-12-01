@@ -32,7 +32,7 @@ var NavButton = React.createClass({displayName: 'NavButton',
 
   getInitialState: function() {
     // return {selected: 'Note'};
-    return this.props.buttonList;
+    return this.props.state;
   },
 
   getParentStyle: function() {
@@ -42,7 +42,7 @@ var NavButton = React.createClass({displayName: 'NavButton',
       // width: 100 / count + '%',
       // height: 4 + 'em',
       // 'maxWidth': 2 * height + 'em',
-      color: (this.props.buttonList.selected === this.props.index) ? '#4F8EF7' : 'inherit',
+      color: (this.props.state.selected === this.props.index) ? '#4F8EF7' : 'inherit',
       float: 'left',
       width: 100 / this.props.count + '%',
       // position: 'relative',
@@ -74,8 +74,10 @@ var NavButton = React.createClass({displayName: 'NavButton',
     var self = this;    
     self.props.children = this.props.children || [];
     var subMenu;
-    if ( false && self.props.button.buttonList.buttons.length && self.props.buttonList.getSelectedName() === self.props.button.name) {
-      subMenu = React.createElement(NavPanel, {buttonList: self.props.button.buttonList});
+    if ( self.props.button.buttonList.buttons.length && self.props.state.selected === self.props.index) {
+      var subState = self.props.state.buttons[self.props.index].buttonList;
+      console.log(subState);
+      subMenu = React.createElement(NavPanel, {state: subState, buttonList: self.props.button.buttonList});
     }
     // if (subMenu) console.log(subMenu);
     return (
@@ -110,11 +112,12 @@ var NavButton = React.createClass({displayName: 'NavButton',
 var NavPanel = React.createClass({displayName: 'NavPanel',
 
   getInitialState: function() {
-    var state = {
-      selected: this.props.buttonList.getSelectedName(),
-    };
+    // var state = {
+    //   selected: this.props.buttonList.getSelectedName(),
+    // };
     // return state;
-    return this.props.buttonList;
+    // if (this.props.state) debugger
+    return this.props.state || this.props.buttonList;
   },
 
   handleClick: function(buttonName) {
@@ -130,13 +133,24 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
     console.log(obj);
   },
 
-  setStateWrapper: function(state, a,b,c) {
-    this.setState(state);
+  handleClick2: function(index) {
+    var selected = this.state.selected;
+    var buttonList = this.state.buttons[selected].buttonList;
+    buttonList.selected = index;
+    this.setState(buttonList);
+  },
+
+  setStateWrapper: function(state) {
+    self = this;
+    this.setState(state, function(a,b,c) {
+      console.log(self.props.state);
+    });
+    // console.log(state, this.state);
     // console.log("Post-setState: ", this.state.selected, a,b,c);
   },
 
   componentDidUpdate: function(a,b,c) {
-    // console.log(a,b,c);
+    console.log(a,b,c);
   },
 
   render: function() {
@@ -153,14 +167,15 @@ var NavPanel = React.createClass({displayName: 'NavPanel',
                   name: name, 
                   key: index, 
                   index: index, 
-                  buttonList: self.state, 
+                  state: self.state, 
                   handleClick: self.setStateWrapper.bind(self, {selected: index}), 
                   handleChildClick: self.setStateWrapper, 
                   setStateWrapper: self.setStateWrapper, 
                   children: button.children, 
                   iconClass: button.iconClass, 
                   count: self.props.buttonList.buttons.length, 
-                  button: button}
+                  button: button, 
+                  handleClick2: self.handleClick2}
                 )
             )})
           )
@@ -187,7 +202,7 @@ ButtonList.prototype.getSelectedName = function() {
 
 React.initializeTouchEvents(true);
 
-React.render(React.createElement(NavPanel, {buttonList:  new ButtonList(0, [
+React.render(React.createElement(NavPanel, {state: null, buttonList:  new ButtonList(0, [
   new Button('Home', 'ion-home'),
   new Button('Feed','ion-android-sort'),
   new Button('New', 'ion-android-lightbulb', new ButtonList(2, [

@@ -32,7 +32,7 @@ var NavButton = React.createClass({
 
   getInitialState: function() {
     // return {selected: 'Note'};
-    return this.props.selected;
+    return this.props.buttonList;
   },
 
   getParentStyle: function() {
@@ -42,7 +42,7 @@ var NavButton = React.createClass({
       // width: 100 / count + '%',
       // height: 4 + 'em',
       // 'maxWidth': 2 * height + 'em',
-      color: (this.props.selected.selected === this.props.name) ? '#4F8EF7' : 'inherit',
+      color: (this.props.buttonList.selected === this.props.index) ? '#4F8EF7' : 'inherit',
       float: 'left',
       width: 100 / this.props.count + '%',
       // position: 'relative',
@@ -50,38 +50,34 @@ var NavButton = React.createClass({
     };
   },
 
-  getChildStyle: function(child) {
-    // var name = _getName(child);
-    // console.log(name);
-    var color = (child === this.props.selected[this.props.name].childSelected) ? 'blue' : 'black';
-    var visibility = (this.props.selected.selected === this.props.name) ? 'visible' : 'hidden';
+  // getChildStyle: function(child) {
+  //   // var name = _getName(child);
+  //   // console.log(name);
+  //   // var color = (child === this.props.selected[this.props.name].childSelected) ? 'blue' : 'black';
+  //   var color = (child === this.props.selected[this.props.name].childSelected) ? 'blue' : 'black';
+  //   var visibility = (this.props.selected.selected === this.props.name) ? 'visible' : 'hidden';
     
-    return {color: color,
-      visibility: visibility,
-      float: 'left',
-      position: 'absolute',
-    };
-  },
+  //   return {color: color,
+  //     visibility: visibility,
+  //     float: 'left',
+  //     position: 'absolute',
+  //   };
+  // },
 
   handleChildClick: function(child) {
     var obj = {};
     obj[this.props.name] = {childSelected: child};
     this.props.setStateWrapper(obj);
-    // console.log('child clicked:' + child);
-    // this.state.selected.childSelected = child;
-    // this.setState({});
   },
-
-  // componentDidUpdate: function(a,b,c) {
-  //   console.log("hello world: ",a,b,c);
-  // },
 
   render: function() {
     var self = this;    
     self.props.children = this.props.children || [];
-    // console.log(className);
-    var subMenu = (self.props.button.buttonList.buttons.length) ? <NavPanel buttonList={self.props.button.buttonList}/> : null;
-    if (subMenu) console.log(subMenu);
+    var subMenu;
+    if ( false && self.props.button.buttonList.buttons.length && self.props.buttonList.getSelectedName() === self.props.button.name) {
+      subMenu = <NavPanel buttonList={self.props.button.buttonList}/>;
+    }
+    // if (subMenu) console.log(subMenu);
     return (
       <div>
         {subMenu}
@@ -117,13 +113,12 @@ var NavPanel = React.createClass({
     var state = {
       selected: this.props.buttonList.getSelectedName(),
     };
-    return state;
+    // return state;
+    return this.props.buttonList;
   },
 
-  handleClick: function(buttonName) {  // NOTE: use this handleClick wrapper because can't use 'bind' with setState - not sure why
-    // console.log("Pre-setState: ", this.state.selected);
+  handleClick: function(buttonName) {
     this.setState({selected: buttonName});
-    // console.log("Post-setState: ", this.state.selected);
   },
 
   handleChildClick: function(parentName, childName, event) {
@@ -135,8 +130,13 @@ var NavPanel = React.createClass({
     console.log(obj);
   },
 
-  setStateWrapper: function(state) {
+  setStateWrapper: function(state, a,b,c) {
     this.setState(state);
+    // console.log("Post-setState: ", this.state.selected, a,b,c);
+  },
+
+  componentDidUpdate: function(a,b,c) {
+    // console.log(a,b,c);
   },
 
   render: function() {
@@ -152,8 +152,9 @@ var NavPanel = React.createClass({
                 <NavButton 
                   name={name}
                   key={index}
-                  selected={self.state}
-                  handleClick={self.setStateWrapper.bind(self, {selected: name})}
+                  index={index}
+                  buttonList={self.state}
+                  handleClick={self.setStateWrapper.bind(self, {selected: index})}
                   handleChildClick={self.setStateWrapper}
                   setStateWrapper={self.setStateWrapper}
                   children={button.children}

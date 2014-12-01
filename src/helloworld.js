@@ -72,15 +72,24 @@ var NavButton = React.createClass({
     // this.setState({});
   },
 
+  // componentDidUpdate: function(a,b,c) {
+  //   console.log("hello world: ",a,b,c);
+  // },
+
   render: function() {
     var self = this;    
-    this.props.children = this.props.children || [];
+    self.props.children = this.props.children || [];
     // console.log(className);
+    var subMenu = (self.props.button.buttonList.buttons.length) ? <NavPanel buttonList={self.props.button.buttonList}/> : null;
+    if (subMenu) console.log(subMenu);
     return (
-      <li className='button' style={self.getParentStyle.call(self)} onTouchStart={self.props.handleClick}>
-        <div className={self.props.iconClass}></div>
-        <div className='name'>{this.props.name}</div>
-      </li>
+      <div>
+        {subMenu}
+        <li className='button' style={self.getParentStyle.call(self)} onTouchStart={self.props.handleClick}>
+          <div className={self.props.iconClass}></div>
+          <div className='name'>{this.props.name}</div>
+        </li>
+      </div>
     )
   },
 
@@ -107,11 +116,6 @@ var NavPanel = React.createClass({
   getInitialState: function() {
     var state = {
       selected: this.props.buttonList.getSelectedName(),
-      Home: {childSelected: '1'},
-      Feed: {childSelected: '5'},
-      New: {childSelected: 'Note'},
-      Search: {childSelected: '9'},
-      More: {childSelected: null}
     };
     return state;
   },
@@ -155,6 +159,7 @@ var NavPanel = React.createClass({
                   children={button.children}
                   iconClass={button.iconClass}
                   count={self.props.buttonList.buttons.length}
+                  button={button}
                 />
             )})}
           </ul>
@@ -167,12 +172,12 @@ var NavPanel = React.createClass({
 function Button(name, iconClass, buttonList) {
   this.name = name;
   this.iconClass = iconClass;
-  this.buttonList = buttonList;
+  this.buttonList = buttonList || new ButtonList();
 };
 
 function ButtonList(selected, buttons) {
   this.selected = selected;
-  this.buttons = buttons;
+  this.buttons = buttons || [];
 };
 
 ButtonList.prototype.getSelectedName = function() {
@@ -184,7 +189,13 @@ React.initializeTouchEvents(true);
 React.render(<NavPanel buttonList={ new ButtonList(0, [
   new Button('Home', 'ion-home'),
   new Button('Feed','ion-android-sort'),
-  new Button('New', 'ion-android-lightbulb'),
+  new Button('New', 'ion-android-lightbulb', new ButtonList(2, [
+    new Button('Delete'),
+    new Button('Group'),
+    new Button('Note'),
+    new Button('Arrow'),
+    new Button('More'),
+  ])),
   new Button('Search', 'ion-search'), 
   new Button('More', 'ion-chevron-right'),
 ])}/>, document.getElementById('nav-panel-bottom'));
